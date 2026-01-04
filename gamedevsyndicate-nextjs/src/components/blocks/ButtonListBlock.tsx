@@ -1,17 +1,17 @@
 'use client'
 
 import React from 'react'
-import { useDesignSystem } from '../../hooks/useDesignSystem'
 import { resolveColor, type ColorReference } from '../../lib/colorUtils'
 import type { ButtonListBlock as ButtonListBlockType, ButtonBlock as ButtonBlockType } from '../../types/sanity'
 import { designSystemColorToCSS } from '../../lib/background-utils'
+import type { DesignSystem } from '../../types/designSystem'
 
 interface ButtonListBlockProps {
   value: ButtonListBlockType
+  designSystem?: DesignSystem | null
 }
 
-export function ButtonListBlock({ value }: ButtonListBlockProps) {
-  const { designSystem } = useDesignSystem()
+export function ButtonListBlock({ value, designSystem }: ButtonListBlockProps) {
 
   // Convert Sanity color to ColorReference format
   const convertToColorReference = (sanityColor: { _type?: string; hex: string; alpha?: number } | undefined) => {
@@ -32,7 +32,7 @@ export function ButtonListBlock({ value }: ButtonListBlockProps) {
     customColor: convertToColorReference(value.customBackgroundColor),
     opacityPreset: value.backgroundOpacityPreset,
   }
-  const backgroundColor = resolveColor(backgroundColorRef, designSystem, 'transparent')
+  const backgroundColor = resolveColor(backgroundColorRef, designSystem ?? null, 'transparent')
 
   // Get spacing classes
   const getSpacingClasses = () => {
@@ -84,7 +84,7 @@ export function ButtonListBlock({ value }: ButtonListBlockProps) {
       )}
       <div className={`${getLayoutClasses()} ${getSpacingClasses()} ${getAlignmentClasses()}`}>
         {value.buttons?.map((button) => (
-          <ButtonItem key={button._key} button={button} />
+          <ButtonItem key={button._key} button={button} designSystem={designSystem} />
         ))}
       </div>
     </div>
@@ -93,10 +93,10 @@ export function ButtonListBlock({ value }: ButtonListBlockProps) {
 
 interface ButtonItemProps {
   button: ButtonBlockType
+  designSystem?: DesignSystem | null
 }
 
-function ButtonItem({ button }: ButtonItemProps) {
-  const { designSystem } = useDesignSystem()
+function ButtonItem({ button, designSystem }: ButtonItemProps) {
 
   let backgroundColor = ''
   let textColor = ''

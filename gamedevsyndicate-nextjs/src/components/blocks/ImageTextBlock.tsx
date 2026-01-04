@@ -3,10 +3,10 @@
 import React from 'react';
 import { getImageUrl } from '../../lib/sanity-image';
 import type { SanityImage } from '../../types/sanity';
-import { useDesignSystem } from '../../hooks/useDesignSystem';
 import { resolveColor } from '../../lib/colorUtils';
 import RichTextRendererClient from '../RichTextRendererClient';
 import type { PortableTextBlock } from '@portabletext/types';
+import type { DesignSystem } from '../../types/designSystem';
 
 interface ImageTextBlockProps {
   value: {
@@ -25,10 +25,10 @@ interface ImageTextBlockProps {
     backgroundOpacityPreset?: string;
     verticalAlignment?: 'start' | 'center' | 'end';
   };
+  designSystem?: DesignSystem | null;
 }
 
-export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({ value }) => {
-  const { designSystem } = useDesignSystem();
+export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({ value, designSystem }) => {
   const {
     title,
     image,
@@ -49,7 +49,7 @@ export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({ value }) => {
         customColor: customBackgroundColor,
         opacityPreset: backgroundOpacityPreset,
       },
-      designSystem,
+      designSystem ?? null,
       undefined
     ) || undefined;
   };

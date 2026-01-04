@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react';
-import { useDesignSystem } from '../../hooks/useDesignSystem';
 import { designSystemColorToCSS } from '../../lib/background-utils';
+import type { DesignSystem } from '../../types/designSystem';
 
 interface SanityColor {
   _type: 'color';
@@ -28,6 +28,7 @@ interface ContentSeparatorBlockProps {
     top?: string;
     bottom?: string;
   };
+  designSystem?: DesignSystem | null;
 }
 
 const getColorValue = (color?: SanityColor): string => {
@@ -60,8 +61,8 @@ const ContentSeparatorBlock: React.FC<ContentSeparatorBlockProps> = ({
   strokeWidth = 0.4,
   height = '24px',
   margin = { top: '2rem', bottom: '2rem' },
+  designSystem,
 }) => {
-  const { designSystem } = useDesignSystem();
   
   console.log('ContentSeparatorBlock props received:', JSON.stringify({ 
     lineColorSelection, customLineColor, diamondColorSelection, customDiamondColor,

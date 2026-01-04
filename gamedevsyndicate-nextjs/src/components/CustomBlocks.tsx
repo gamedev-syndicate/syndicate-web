@@ -489,28 +489,28 @@ export default function CustomBlocks({ blocks, designSystem }: { blocks: Content
           case 'imageBlock':
             return <ImageBlock key={block._key} value={block} />;
           case 'textBlock':
-            return <TextBlock key={block._key} value={block} />;
+            return <TextBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'buttonBlock':
-            return <ButtonBlock key={block._key} value={block} />;
+            return <ButtonBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'buttonListBlock':
-            return <ButtonListBlock key={block._key} value={block} />;
+            return <ButtonListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'companyBlock':
-            return <CompanyBlock key={block._key} value={block} />;
+            return <CompanyBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'companyListBlock':
-            return <CompanyListBlock key={block._key} value={block} />;
+            return <CompanyListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'compactCompanyListBlock':
-            return <CompactCompanyListBlock key={block._key} value={block} />;
+            return <CompactCompanyListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'contactBlock':
             console.log('Rendering ContactBlock with data:', block);
             return <ContactBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'socialMediaBlock':
-            return <SocialMediaBlock key={block._key} value={block} />;
+            return <SocialMediaBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'imageTextBlock':
-            return <ImageTextBlock key={block._key} value={block} />;
+            return <ImageTextBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'textAndImageBlock':
             return <TextAndImageBlock key={block._key} value={block} />;
           case 'textAndImageListBlock':
-            return <TextAndImageListBlock key={block._key} value={block} />;
+            return <TextAndImageListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'contentSeparator': {
             const separatorBlock = block as import('../types/sanity').ContentSeparatorBlock;
             return (
@@ -525,6 +525,7 @@ export default function CustomBlocks({ blocks, designSystem }: { blocks: Content
                 strokeWidth={separatorBlock.strokeWidth}
                 height={separatorBlock.height}
                 margin={separatorBlock.margin}
+                designSystem={designSystem}
               />
             );
           }

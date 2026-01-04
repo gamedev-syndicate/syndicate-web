@@ -5,8 +5,8 @@ import { getImageUrl } from '../../lib/sanity-image';
 import type { SanityImage } from '../../types/sanity';
 import RichTextRendererClient from '../RichTextRendererClient';
 import type { PortableTextBlock } from '@portabletext/types';
-import { useDesignSystem } from '../../hooks/useDesignSystem';
 import { resolveColor } from '../../lib/colorUtils';
+import type { DesignSystem } from '../../types/designSystem';
 
 interface Article {
   _key: string;
@@ -36,10 +36,10 @@ interface TextAndImageListBlockProps {
     };
     backgroundOpacityPreset?: string;
   };
+  designSystem?: DesignSystem | null;
 }
 
-export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ value }) => {
-  const { designSystem } = useDesignSystem();
+export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ value, designSystem }) => {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   
@@ -97,7 +97,7 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
         customColor: customBackgroundColor,
         opacityPreset: backgroundOpacityPreset,
       },
-      designSystem,
+      designSystem ?? null,
       undefined
     ) || undefined;
   };

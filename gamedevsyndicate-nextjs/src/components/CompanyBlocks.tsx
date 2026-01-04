@@ -6,8 +6,8 @@ import type { SanityImage } from '../types/sanity';
 import { HoneycombGrid } from './HoneycombGrid';
 import { TiltedSquareGrid } from './TiltedSquareGrid';
 import HeroGrid from './HeroGrid';
-import { useDesignSystem } from '../hooks/useDesignSystem';
 import { colorToCSS } from '../lib/colorUtils';
+import type { DesignSystem } from '../types/designSystem';
 
 interface CompanyData {
   _id: string;
@@ -29,6 +29,7 @@ interface CompanyBlockProps {
     company: CompanyData;
     layout?: 'card' | 'horizontal' | 'minimal';
   };
+  designSystem?: DesignSystem | null;
 }
 
 interface CompanyListBlockProps {
@@ -45,6 +46,7 @@ interface CompanyListBlockProps {
     backgroundColor?: { hex: string; alpha?: number };
     borderColor?: { hex: string; alpha?: number };
   };
+  designSystem?: DesignSystem | null;
 }
 
 const CompanyCard: React.FC<{
@@ -170,7 +172,7 @@ const CompanyCard: React.FC<{
   );
 };
 
-export const CompanyBlock: React.FC<CompanyBlockProps> = ({ value }) => {
+export const CompanyBlock: React.FC<CompanyBlockProps> = ({ value, designSystem }) => {
   if (!value.company) {
     return null;
   }
@@ -185,8 +187,7 @@ export const CompanyBlock: React.FC<CompanyBlockProps> = ({ value }) => {
   );
 };
 
-export const CompanyListBlock: React.FC<CompanyListBlockProps> = ({ value }) => {
-  const { designSystem } = useDesignSystem();
+export const CompanyListBlock: React.FC<CompanyListBlockProps> = ({ value, designSystem }) => {
   const { 
     title, 
     companies,
@@ -425,10 +426,10 @@ interface CompactCompanyListBlockProps {
     backgroundColor?: { hex: string; alpha?: number };
     borderColor?: { hex: string; alpha?: number };
   };
+  designSystem?: DesignSystem | null;
 }
 
-export const CompactCompanyListBlock: React.FC<CompactCompanyListBlockProps> = ({ value }) => {
-  const { designSystem } = useDesignSystem();
+export const CompactCompanyListBlock: React.FC<CompactCompanyListBlockProps> = ({ value, designSystem }) => {
   const { 
     title, 
     companies, 

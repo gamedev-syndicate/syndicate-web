@@ -1,7 +1,7 @@
 'use client'
 
-import { useDesignSystem } from '../../hooks/useDesignSystem';
 import { resolveColor } from '../../lib/colorUtils';
+import type { DesignSystem } from '../../types/designSystem';
 import { 
   FaTwitter, FaLinkedin, FaFacebook, FaInstagram, FaYoutube, 
   FaGithub, FaDiscord, FaTwitch, FaTiktok, FaReddit, 
@@ -30,10 +30,10 @@ interface SocialMediaBlockType {
 
 interface SocialMediaBlockProps {
   value: SocialMediaBlockType;
+  designSystem?: DesignSystem | null;
 }
 
-export function SocialMediaBlock({ value }: SocialMediaBlockProps) {
-  const { designSystem } = useDesignSystem();
+export function SocialMediaBlock({ value, designSystem }: SocialMediaBlockProps) {
   
   const {
     title,
@@ -51,7 +51,7 @@ export function SocialMediaBlock({ value }: SocialMediaBlockProps) {
       colorSelection: linkColorSelection as 'primary' | 'secondary' | 'tertiary' | 'buttonPrimary' | 'buttonSecondary' | 'custom' | undefined, 
       customColor: customLinkColor as { hex: string; alpha?: number; rgb: { r: number; g: number; b: number; a: number } } | undefined
     },
-    designSystem,
+    designSystem ?? null,
     '#9ca3af' // Default gray-400
   );
 
