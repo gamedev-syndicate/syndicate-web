@@ -38,7 +38,7 @@
 /* Only adjust height on very small screens */
 @media (max-width: 480px) {
   .bannerImage {
-    max-height: 250px;
+    max-height: 300px; /* 20% bigger on mobile for better visibility */
   }
 }
 

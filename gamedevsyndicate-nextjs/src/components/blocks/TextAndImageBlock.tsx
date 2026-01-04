@@ -109,11 +109,11 @@ export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value }) =
       <div className={containerClasses}>
         {/* Image Column */}
         {imageUrl && (
-          <div className={`w-full ${getImageSizeClasses()} flex-shrink-0`}>
+          <div className={`w-2/3 mx-auto md:w-full md:mx-0 ${getImageSizeClasses()} flex-shrink-0`}>
             <img
               src={imageUrl}
               alt={image?.alt || title || 'Content image'}
-              className="w-full h-auto object-cover rounded-lg shadow-md"
+              className="w-full h-auto max-h-64 md:max-h-none object-cover rounded-lg shadow-md"
             />
           </div>
         )}
