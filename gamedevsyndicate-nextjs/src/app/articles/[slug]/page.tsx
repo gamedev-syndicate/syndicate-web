@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getArticlePage, getAllArticlePages } from '../../../lib/sanity-queries';
+import { getArticlePage, getAllArticlePages, getDesignSystem } from '../../../lib/sanity-queries';
 import { getImageUrl } from '../../../lib/sanity-image';
 import type { ArticlePage } from '../../../types/sanity';
 import CustomBlocks from '../../../components/CustomBlocks';
@@ -54,6 +54,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 export default async function ArticlePageComponent({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = await getArticlePage(slug);
+  const designSystem = await getDesignSystem();
 
   if (!article) {
     notFound();
@@ -138,7 +139,7 @@ export default async function ArticlePageComponent({ params }: ArticlePageProps)
 
           {/* Article Content */}
           <div className="mb-12">
-            <CustomBlocks blocks={article.content} />
+            <CustomBlocks blocks={article.content} designSystem={designSystem} />
           </div>
 
           {/* Related Articles */}

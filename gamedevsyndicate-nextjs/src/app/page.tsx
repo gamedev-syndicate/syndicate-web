@@ -141,7 +141,7 @@ export default async function Home() {
                   </h2>
                 )}
                 {section.content && section.content.length > 0 && (
-                  <CustomBlocks blocks={section.content} />
+                  <CustomBlocks blocks={section.content} designSystem={designSystem} />
                 )}
               </div>
             </section>

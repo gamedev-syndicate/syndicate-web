@@ -12,7 +12,6 @@ import { ImageTextBlock } from './blocks/ImageTextBlock';
 import { TextAndImageBlock } from './blocks/TextAndImageBlock';
 import { TextAndImageListBlock } from './blocks/TextAndImageListBlock';
 import { ButtonListBlock } from './blocks/ButtonListBlock';
-import { useDesignSystem } from '../hooks/useDesignSystem';
 import { designSystemColorToCSS } from '../lib/background-utils';
 import type { DesignSystem } from '../types/designSystem';
 
@@ -30,6 +29,7 @@ interface CalloutProps {
     title?: string;
     content: string;
   };
+  designSystem?: DesignSystem | null;
 }
 
 interface InlineImageProps {
@@ -42,11 +42,11 @@ interface InlineImageProps {
     caption?: string;
     position?: 'center' | 'left' | 'right';
   };
+  designSystem?: DesignSystem | null;
 }
 
 // Enhanced callout component
-export function Callout({ value }: CalloutProps) {
-  const { designSystem } = useDesignSystem();
+export function Callout({ value, designSystem }: CalloutProps) {
   
   // Default to design system colors, fallback to hardcoded colors
   const getTypeColors = (type: string) => {
@@ -123,7 +123,7 @@ export function Callout({ value }: CalloutProps) {
 }
 
 // Enhanced inline image component
-export function InlineImage({ value }: InlineImageProps) {
+export function InlineImage({ value, designSystem }: InlineImageProps) {
   const positionClasses = {
     center: 'mx-auto',
     left: 'mr-auto',
@@ -176,7 +176,7 @@ export function ImageBlock({ value }: ImageBlockProps) {
   );
 }
 
-export function TextBlock({ value }: TextBlockProps) {
+export function TextBlock({ value, designSystem }: TextBlockProps & { designSystem?: DesignSystem | null }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const blockRef = React.useRef<HTMLDivElement>(null);
   
@@ -240,8 +240,7 @@ export function TextBlock({ value }: TextBlockProps) {
   );
 }
 
-export function ButtonBlock({ value }: { value: ButtonBlockType }) {
-  const { designSystem } = useDesignSystem();
+export function ButtonBlock({ value, designSystem }: { value: ButtonBlockType, designSystem?: DesignSystem | null }) {
   
   let backgroundColor = '';
   let textColor = '';
@@ -335,8 +334,8 @@ import type { CompanyBlock as CompanyBlockType, CompanyListBlock as CompanyListB
 export const createCustomComponents = (designSystem: DesignSystem | null) => ({
   types: {
     imageBlock: ImageBlock,
-    textBlock: TextBlock,
-    buttonBlock: ButtonBlock,
+    textBlock: (props: TextBlockProps) => <TextBlock {...props} designSystem={designSystem} />,
+    buttonBlock: (props: { value: ButtonBlockType }) => <ButtonBlock {...props} designSystem={designSystem} />,
     buttonListBlock: ({ value }: { value: ButtonListBlockType }) => <ButtonListBlock value={value} />,
     companyBlock: ({ value }: { value: CompanyBlockType }) => <CompanyBlock value={value} />,
     companyListBlock: ({ value }: { value: CompanyListBlockType }) => <CompanyListBlock value={value} />,
@@ -346,8 +345,8 @@ export const createCustomComponents = (designSystem: DesignSystem | null) => ({
     imageTextBlock: ({ value }: { value: ImageTextBlockType }) => <ImageTextBlock value={value} />,
     textAndImageBlock: ({ value }: { value: TextAndImageBlockType }) => <TextAndImageBlock value={value} />,
     textAndImageListBlock: ({ value }: { value: TextAndImageListBlockType }) => <TextAndImageListBlock value={value} />,
-    callout: Callout,
-    image: InlineImage,
+    callout: (props: CalloutProps) => <Callout {...props} designSystem={designSystem} />,
+    image: (props: InlineImageProps) => <InlineImage {...props} designSystem={designSystem} />,
     contentSeparator: ({ value }: { value: ContentSeparatorBlockType }) => {
       console.log('ContentSeparator value from Sanity:', JSON.stringify(value, null, 2));
       return (
@@ -478,9 +477,8 @@ export const createCustomComponents = (designSystem: DesignSystem | null) => ({
 
 import type { ContentBlock } from '../types/sanity';
 
-export default function CustomBlocks({ blocks }: { blocks: ContentBlock[] }) {
+export default function CustomBlocks({ blocks, designSystem }: { blocks: ContentBlock[], designSystem: DesignSystem | null }) {
   console.log('CustomBlocks rendering blocks:', blocks);
-  const { designSystem } = useDesignSystem();
   
   return (
     <div className="custom-blocks">
