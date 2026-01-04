@@ -100,20 +100,21 @@ export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value }) =
   };
 
   // Build proper class names for Tailwind (can't use template literals with breakpoints)
+  // On mobile: always image on top (flex-col), on desktop: respect imageAlignment
   const containerClasses = imageAlignment === 'right'
-    ? `flex flex-col md:flex-row-reverse gap-4 md:gap-6 ${getAlignmentClasses()}`
-    : `flex flex-col md:flex-row gap-4 md:gap-6 ${getAlignmentClasses()}`;
+    ? `flex flex-col md:flex-row-reverse gap-6 md:gap-6 ${getAlignmentClasses()}`
+    : `flex flex-col md:flex-row gap-6 md:gap-6 ${getAlignmentClasses()}`;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4">
       <div className={containerClasses}>
-        {/* Image Column */}
+        {/* Image Column - Always on top on mobile */}
         {imageUrl && (
-          <div className={`w-2/3 mx-auto md:w-full md:mx-0 ${getImageSizeClasses()} flex-shrink-0`}>
+          <div className={`w-1/2 mx-auto md:w-full md:mx-0 ${getImageSizeClasses()} flex-shrink-0`}>
             <img
               src={imageUrl}
               alt={image?.alt || title || 'Content image'}
-              className="w-full h-auto max-h-64 md:max-h-none object-cover rounded-lg shadow-md"
+              className="w-full h-auto object-cover rounded-lg shadow-md"
             />
           </div>
         )}

@@ -35,10 +35,17 @@
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
-/* Only adjust height on very small screens */
-@media (max-width: 480px) {
+/* Make banner significantly bigger on mobile */
+@media (max-width: 768px) {
+  .bannerSection {
+    padding: 2rem 0 0.5rem 0;
+  }
+  
   .bannerImage {
-    max-height: 300px; /* 20% bigger on mobile for better visibility */
+    max-height: 420px; 
+    max-width: 150vw;
+    width: 140vw;
+    margin-left: -40px;
   }
 }
 

@@ -33,6 +33,20 @@ export default defineType({
       'Custom Background Color',
       'Custom background color when not using design system colors'
     ),
+    colorSelectionField(
+      'textContainerBackgroundColorSelection',
+      'Text Container Background Color',
+      'Choose background color for text containers from design system or use custom color'
+    ),
+    opacityPresetField(
+      'textContainerBackgroundOpacityPreset',
+      'Text Container Background Opacity'
+    ),
+    customColorField(
+      'customTextContainerBackgroundColor',
+      'Custom Text Container Background Color',
+      'Custom background color for text containers when not using design system colors'
+    ),
     defineField({
       name: 'articles',
       title: 'Content Items',

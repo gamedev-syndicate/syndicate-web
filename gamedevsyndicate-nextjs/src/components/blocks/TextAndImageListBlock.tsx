@@ -35,6 +35,13 @@ interface TextAndImageListBlockProps {
       rgb: { r: number; g: number; b: number; a: number };
     };
     backgroundOpacityPreset?: string;
+    textContainerBackgroundColorSelection?: string;
+    customTextContainerBackgroundColor?: {
+      hex: string;
+      alpha?: number;
+      rgb: { r: number; g: number; b: number; a: number };
+    };
+    textContainerBackgroundOpacityPreset?: string;
   };
   designSystem?: DesignSystem | null;
 }
@@ -56,6 +63,9 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
     backgroundColorSelection,
     customBackgroundColor,
     backgroundOpacityPreset,
+    textContainerBackgroundColorSelection,
+    customTextContainerBackgroundColor,
+    textContainerBackgroundOpacityPreset,
   } = value;
 
   // Set up Intersection Observer for viewport detection
@@ -104,6 +114,21 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
 
   const backgroundColor = resolveBackgroundColor();
 
+  // Resolve text container background color using design system with opacity preset
+  const resolveTextContainerBackgroundColor = (): string | undefined => {
+    return resolveColor(
+      {
+        colorSelection: textContainerBackgroundColorSelection as 'primary' | 'secondary' | 'tertiary' | 'buttonPrimary' | 'buttonSecondary' | 'custom' | undefined,
+        customColor: customTextContainerBackgroundColor,
+        opacityPreset: textContainerBackgroundOpacityPreset,
+      },
+      designSystem ?? null,
+      undefined
+    ) || undefined;
+  };
+
+  const textContainerBackgroundColor = resolveTextContainerBackgroundColor();
+
   // Get image size classes - much smaller for list view (40% height reduction total)
   const getImageSizeClasses = () => {
     if (layout === 'horizontal') {
@@ -149,11 +174,11 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
       case 'compact':
         return 'gap-1.5 md:gap-2';
       case 'normal':
-        return 'gap-2 md:gap-3';
-      case 'relaxed':
         return 'gap-3 md:gap-4';
+      case 'relaxed':
+        return 'gap-4 md:gap-6';
       default:
-        return 'gap-2 md:gap-3';
+        return 'gap-3 md:gap-4';
     }
   };
 
@@ -163,31 +188,35 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
       return { imageHeight: '', imageWidth: '', contentPadding: '' };
     }
 
+    // On mobile: reduced height for all positions (15% less than before)
+    // On desktop: full height for top/bottom, auto height for left/right
+    const isTopBottom = imagePosition === 'top' || imagePosition === 'bottom';
+
     switch (itemSize) {
       case 'small':
         return {
-          imageHeight: 'h-24 md:h-32',
-          imageWidth: 'md:w-32',
+          imageHeight: isTopBottom ? 'h-14 md:h-32' : 'h-14 md:h-auto',
+          imageWidth: 'w-full md:w-32',
           contentPadding: 'p-3 md:p-4'
         };
       case 'medium':
         return {
-          imageHeight: 'h-40 md:h-48',
-          imageWidth: 'md:w-48',
-          contentPadding: 'p-5 md:p-6'
+          imageHeight: isTopBottom ? 'h-20 md:h-48' : 'h-20 md:h-auto',
+          imageWidth: 'w-full md:w-48',
+          contentPadding: 'p-4 md:p-6'
         };
       case 'large':
         return {
-          imageHeight: 'h-56 md:h-64',
-          imageWidth: 'md:w-64',
-          contentPadding: 'p-6 md:p-8'
+          imageHeight: isTopBottom ? 'h-28 md:h-64' : 'h-28 md:h-auto',
+          imageWidth: 'w-full md:w-64',
+          contentPadding: 'p-5 md:p-8'
         };
       default:
         return {
-          imageHeight: 'h-24 md:h-32',
-          imageWidth: 'md:w-32',
+          imageHeight: isTopBottom ? 'h-14 md:h-32' : 'h-14 md:h-auto',
+          imageWidth: 'w-full md:w-32',
           contentPadding: 'p-3 md:p-4'
-        };
+        }
     }
   };
 
@@ -267,13 +296,13 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
     // Determine layout based on image position
     let containerClasses = '';
     if (imagePosition === 'top') {
-      containerClasses = `flex flex-col ${getAlignmentClasses()}`;
+      containerClasses = `flex flex-col gap-2 md:gap-4 ${getAlignmentClasses()}`;
     } else if (imagePosition === 'bottom') {
-      containerClasses = `flex flex-col-reverse ${getAlignmentClasses()}`;
+      containerClasses = `flex flex-col-reverse gap-2 md:gap-4 ${getAlignmentClasses()}`;
     } else if (imagePosition === 'right' || articleImageSide === 'right') {
-      containerClasses = `flex flex-row-reverse ${getAlignmentClasses()}`;
+      containerClasses = `flex flex-col gap-2 md:flex-row-reverse md:gap-6 ${getAlignmentClasses()}`;
     } else {
-      containerClasses = `flex flex-row ${getAlignmentClasses()}`;
+      containerClasses = `flex flex-col gap-2 md:flex-row md:gap-6 ${getAlignmentClasses()}`;
     }
 
     const isHorizontalImage = imagePosition === 'top' || imagePosition === 'bottom';
@@ -287,16 +316,19 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
       >
         <div className={containerClasses}>
           {/* Image - no padding, extends to edges */}
-          <div className={`${isHorizontalImage ? 'w-full' : getImageSizeClasses()} ${!isHorizontalImage ? sizeClasses.imageHeight || 'h-24 md:h-32' : ''} flex-shrink-0`}>
+          <div className={`w-full ${isHorizontalImage ? '' : sizeClasses.imageWidth || 'md:w-32'} flex-shrink-0`}>
             <img
               src={imageUrl}
               alt={article.image?.alt || article.title || 'Content image'}
-              className={`w-full ${isHorizontalImage ? (sizeClasses.imageHeight || 'h-20 md:h-24') : 'h-full'} object-cover`}
+              className={`w-full object-cover ${isHorizontalImage ? (sizeClasses.imageHeight || 'h-14 md:h-32') : (sizeClasses.imageHeight || 'h-14 md:h-auto')}`}
             />
           </div>
 
-          {/* Content - with padding */}
-          <div className={`${isHorizontalImage ? 'w-full' : getContentSizeClasses()} flex flex-col justify-start gap-1 ${sizeClasses.contentPadding || 'p-3 md:p-4'}`}>
+          {/* Content - with padding and background */}
+          <div 
+            className={`w-full ${isHorizontalImage ? '' : 'md:flex-1'} flex flex-col justify-start gap-1 md:gap-2 ${sizeClasses.contentPadding || 'p-3 md:p-4'} ${textContainerBackgroundColor ? '' : 'bg-gray-900/80'} backdrop-blur-sm rounded-lg`}
+            style={textContainerBackgroundColor ? { backgroundColor: textContainerBackgroundColor } : undefined}
+          >
             <h3 className="text-lg font-bold text-white text-left">
               {article.title}
             </h3>
