@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   
   return {
-    title: `${page.title} | GameDev Syndicate`,
-    description: `${page.title} - GameDev Syndicate`,
+    title: page.metaTitle || page.title || 'GameDev Syndicate',
+    description: page.metaDescription || `${page.title || 'Page'} - GameDev Syndicate`,
   };
 }
 

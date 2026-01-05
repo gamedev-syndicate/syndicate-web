@@ -14,9 +14,11 @@ import type { PortableTextBlock } from '@portabletext/types';
 export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
+  const homepage = await getHomepage();
+  
   return {
-    title: 'GameDev Syndicate',
-    description: 'Your ultimate destination for game development resources, tutorials, and community.',
+    title: homepage?.metaTitle || 'GameDev Syndicate',
+    description: homepage?.metaDescription || 'Your ultimate destination for game development resources, tutorials, and community.',
   };
 }
 

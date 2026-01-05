@@ -6,6 +6,19 @@ export default defineType({
   title: 'Homepage',
   type: 'document',
   fields: [
+    defineField({
+      name: 'metaTitle',
+      title: 'Meta Title',
+      type: 'string',
+      description: '🔍 Title shown in browser tabs and search results',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Meta Description',
+      type: 'text',
+      description: '🔍 Brief description shown in search results and social media previews',
+      rows: 3,
+    }),
     // Banner Image
     defineField({
       name: 'bannerImage',

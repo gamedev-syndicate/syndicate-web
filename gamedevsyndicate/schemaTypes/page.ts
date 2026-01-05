@@ -20,6 +20,19 @@ export default defineType({
       description: '📝 The page title displayed in navigation, browser tab, and as the main heading',
     }),
     defineField({
+      name: 'metaTitle',
+      title: 'Meta Title',
+      type: 'string',
+      description: '🔍 Title shown in browser tabs and search results',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Meta Description',
+      type: 'text',
+      description: '🔍 Brief description shown in search results and social media previews',
+      rows: 3,
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

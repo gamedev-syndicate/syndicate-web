@@ -345,6 +345,8 @@ export interface Page {
   _type: 'page';
   internalLabel?: string; // For CMS organization only - not displayed on website
   title?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   slug: SanitySlug;
   showInNavigation?: boolean;
   navigationOrder?: number;
@@ -458,6 +460,8 @@ export interface HomepageSection {
 export interface Homepage {
   _id: string;
   _type: 'homepage';
+  metaTitle?: string;
+  metaDescription?: string;
   bannerImage: SanityImage;
   bannerPosition?: {
     offsetX?: number;

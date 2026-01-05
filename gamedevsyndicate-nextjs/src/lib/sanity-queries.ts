@@ -126,6 +126,8 @@ export async function getHomepage(): Promise<Homepage | null> {
     const query = `*[_type == "homepage"][0]{
       _id,
       _type,
+      metaTitle,
+      metaDescription,
       bannerImage,
       bannerPosition{
         offsetX,
@@ -333,6 +335,8 @@ export async function getPage(slug: string): Promise<Page | null> {
       _id,
       _type,
       title,
+      metaTitle,
+      metaDescription,
       slug,
       showInNavigation,
       navigationOrder,
