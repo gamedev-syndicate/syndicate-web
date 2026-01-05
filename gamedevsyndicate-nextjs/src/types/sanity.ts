@@ -353,6 +353,16 @@ export interface Page {
     hex: string;
     alpha?: number;
   };
+  bannerConfig?: {
+    enableBanner?: boolean;
+    bannerImage?: SanityImage;
+    bannerPosition?: {
+      offsetX?: number;
+      offsetY?: number;
+      scale?: number;
+    };
+    enableBannerAnimation?: boolean;
+  };
   sections?: HomepageSection[]; // Content sections with individual backgrounds and styling
 }
 

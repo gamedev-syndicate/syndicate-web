@@ -44,6 +44,88 @@ export default defineType({
       initialValue: 100,
       hidden: ({parent}) => !parent?.showInNavigation,
     }),
+    // Banner Configuration
+    defineField({
+      name: 'bannerConfig',
+      title: 'Banner Configuration',
+      type: 'object',
+      description: '🎨 Optional banner image at the top of the page',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        {
+          name: 'enableBanner',
+          title: 'Enable Banner',
+          type: 'boolean',
+          description: '✨ Toggle to show/hide banner on this page',
+          initialValue: false,
+        },
+        {
+          name: 'bannerImage',
+          title: 'Banner Image',
+          type: 'image',
+          description: 'Large banner image for the top of the page',
+          options: {
+            hotspot: true,
+          },
+          validation: (Rule) => Rule.custom((value, context) => {
+            const parent = context.parent as { enableBanner?: boolean };
+            if (parent?.enableBanner && !value) {
+              return 'Banner image is required when banner is enabled';
+            }
+            return true;
+          }),
+          hidden: ({parent}) => !parent?.enableBanner,
+        },
+        {
+          name: 'bannerPosition',
+          title: 'Banner Position',
+          type: 'object',
+          description: 'Control the position offset of the banner using percentages',
+          fields: [
+            {
+              name: 'offsetX',
+              title: 'Horizontal Offset (%)',
+              type: 'number',
+              description: 'Move banner left/right as percentage (-50% = far left, 50% = far right)',
+              initialValue: 0,
+              validation: (Rule) => Rule.min(-50).max(50),
+            },
+            {
+              name: 'offsetY',
+              title: 'Vertical Offset (%)',
+              type: 'number',
+              description: 'Move banner up/down as percentage (-50% = far up, 50% = far down)',
+              initialValue: 0,
+              validation: (Rule) => Rule.min(-50).max(50),
+            },
+            {
+              name: 'scale',
+              title: 'Scale (%)',
+              type: 'number',
+              description: 'Control banner size (100% = normal, 150% = larger, 75% = smaller)',
+              initialValue: 100,
+              validation: (Rule) => Rule.min(1).max(300),
+            },
+          ],
+          options: {
+            collapsible: true,
+            collapsed: true,
+          },
+          hidden: ({parent}) => !parent?.enableBanner,
+        },
+        {
+          name: 'enableBannerAnimation',
+          title: 'Enable Banner Fade-In Animation',
+          type: 'boolean',
+          description: '✨ When enabled, the banner will fade in when the page loads',
+          initialValue: false,
+          hidden: ({parent}) => !parent?.enableBanner,
+        },
+      ],
+    }),
     // Page Sections
     defineField({
       name: 'sections',

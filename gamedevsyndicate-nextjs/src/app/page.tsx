@@ -88,6 +88,8 @@ export default async function Home() {
           <img
             src={getImageUrl(homepage.bannerImage, 1200, 400)}
             alt="Homepage Banner"
+            width={1200}
+            height={400}
             className={styles.bannerImage}
             style={{
               transform: `translate(${homepage.bannerPosition?.offsetX || 0}%, ${homepage.bannerPosition?.offsetY || 0}%) scale(${(homepage.bannerPosition?.scale || 100) / 100})`,

@@ -20,6 +20,7 @@
   align-items: center;
   position: relative;
   padding: 3rem 0 1rem 0;
+  min-height: 350px; /* Reserve space to prevent layout shift */
 }
 
 .bannerImage {
@@ -27,6 +28,7 @@
   height: auto;
   max-width: min(990px, 90vw); /* Smoothly adapts to viewport width */
   max-height: 350px;
+  aspect-ratio: 3 / 1; /* Maintain aspect ratio based on 1200x400 */
   object-fit: contain; /* Always maintain aspect ratio */
   object-position: center;
   margin: 0 auto;

@@ -2,8 +2,11 @@ import { notFound } from 'next/navigation';
 import DynamicStyles from '../../components/DynamicStyles';
 import SvgOverlay from '../../components/SvgOverlay';
 import CustomBlocks from '../../components/CustomBlocks';
+import { AnimatedHomepageSection } from '../../components/AnimatedHomepageSection';
 import { getPage, getSiteConfig, getDesignSystem, getAllPageSlugs } from '../../lib/sanity-queries';
 import { sanityColorToCSS, generateSectionBackgroundStyle } from '../../lib/background-utils';
+import { getImageUrl } from '../../lib/sanity-image';
+import bannerStyles from '../banner.module.css';
 import type { Metadata } from 'next';
 
 // Revalidate this page every 5 minutes in production
@@ -106,6 +109,28 @@ export default async function Page({ params }: PageProps) {
           <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '3rem 1rem 2rem 1rem' }} className="relative z-10">
             <h1 className="text-4xl font-bold text-white mb-8 text-center">{page.title}</h1>
           </div>
+        )}
+        
+        {/* Page Banner - Conditionally rendered */}
+        {page.bannerConfig?.enableBanner === true && page.bannerConfig?.bannerImage && (
+          <AnimatedHomepageSection
+            enableAnimation={page.bannerConfig?.enableBannerAnimation ?? false}
+            animateOnLoad={true}
+            animationType="slide-left"
+            className={`${bannerStyles.bannerSection} py-8`}
+          >
+            <img
+              src={getImageUrl(page.bannerConfig.bannerImage, 1200, 400)}
+              alt="Page Banner"
+              width={1200}
+              height={400}
+              className={bannerStyles.bannerImage}
+              style={{
+                transform: `translate(${page.bannerConfig.bannerPosition?.offsetX ?? 0}%, ${page.bannerConfig.bannerPosition?.offsetY ?? 0}%) scale(${(page.bannerConfig.bannerPosition?.scale ?? 100) / 100})`,
+                transformOrigin: 'center center',
+              }}
+            />
+          </AnimatedHomepageSection>
         )}
       </div>
 

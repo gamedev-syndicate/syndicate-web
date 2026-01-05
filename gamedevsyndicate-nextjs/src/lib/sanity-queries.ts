@@ -337,6 +337,16 @@ export async function getPage(slug: string): Promise<Page | null> {
       showInNavigation,
       navigationOrder,
       backgroundColor,
+      bannerConfig{
+        enableBanner,
+        bannerImage,
+        bannerPosition{
+          offsetX,
+          offsetY,
+          scale
+        },
+        enableBannerAnimation
+      },
       sections[]{
         _key,
         title,
