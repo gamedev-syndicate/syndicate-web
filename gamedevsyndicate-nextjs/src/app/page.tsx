@@ -85,7 +85,7 @@ export default async function Home() {
           enableAnimation={homepage.enableBannerAnimation}
           animateOnLoad={true}
           animationType="slide-left"
-          className={`${styles.bannerSection} py-8`}
+          className={styles.bannerSection}
         >
           <img
             src={getImageUrl(homepage.bannerImage, 1200, 400)}

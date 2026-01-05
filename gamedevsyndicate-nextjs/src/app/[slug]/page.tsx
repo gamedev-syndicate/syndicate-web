@@ -117,7 +117,7 @@ export default async function Page({ params }: PageProps) {
             enableAnimation={page.bannerConfig?.enableBannerAnimation ?? false}
             animateOnLoad={true}
             animationType="slide-left"
-            className={`${bannerStyles.bannerSection} py-8`}
+            className={bannerStyles.bannerSection}
           >
             <img
               src={getImageUrl(page.bannerConfig.bannerImage, 1200, 400)}
