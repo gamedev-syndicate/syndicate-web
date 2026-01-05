@@ -188,32 +188,32 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
       return { imageHeight: '', imageWidth: '', contentPadding: '' };
     }
 
-    // On mobile: reduced height for all positions (15% less than before)
+    // On mobile: moderately reduced height for all positions
     // On desktop: full height for top/bottom, auto height for left/right
     const isTopBottom = imagePosition === 'top' || imagePosition === 'bottom';
 
     switch (itemSize) {
       case 'small':
         return {
-          imageHeight: isTopBottom ? 'h-14 md:h-32' : 'h-14 md:h-auto',
+          imageHeight: isTopBottom ? '!h-26 md:!h-32' : '!h-26 md:!h-auto',
           imageWidth: 'w-full md:w-32',
           contentPadding: 'p-3 md:p-4'
         };
       case 'medium':
         return {
-          imageHeight: isTopBottom ? 'h-20 md:h-48' : 'h-20 md:h-auto',
+          imageHeight: isTopBottom ? '!h-36 md:!h-48' : '!h-36 md:!h-auto',
           imageWidth: 'w-full md:w-48',
           contentPadding: 'p-4 md:p-6'
         };
       case 'large':
         return {
-          imageHeight: isTopBottom ? 'h-28 md:h-64' : 'h-28 md:h-auto',
+          imageHeight: isTopBottom ? '!h-48 md:!h-64' : '!h-48 md:!h-auto',
           imageWidth: 'w-full md:w-64',
           contentPadding: 'p-5 md:p-8'
         };
       default:
         return {
-          imageHeight: isTopBottom ? 'h-14 md:h-32' : 'h-14 md:h-auto',
+          imageHeight: isTopBottom ? '!h-26 md:!h-32' : '!h-26 md:!h-auto',
           imageWidth: 'w-full md:w-32',
           contentPadding: 'p-3 md:p-4'
         }
@@ -245,7 +245,11 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
 
   // Render a single item
   const renderArticle = (article: Article, index: number) => {
-    const imageUrl = article.image 
+    // Generate two different image URLs - panoramic for mobile, standard for desktop
+    const mobileImageUrl = article.image 
+      ? getImageUrl(article.image, 800, 300, { fit: 'crop' })
+      : null;
+    const desktopImageUrl = article.image 
       ? getImageUrl(article.image, 400, 600, { fit: 'crop' })
       : null;
     const articleImageSide = getItemImageSide(index);
@@ -271,7 +275,7 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
     `.trim().replace(/\s+/g, ' ');
     
     // If no image, render simple text-only layout
-    if (!imageUrl) {
+    if (!mobileImageUrl && !desktopImageUrl) {
       return (
         <div 
           key={article._key}
@@ -317,11 +321,15 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
         <div className={containerClasses}>
           {/* Image - no padding, extends to edges */}
           <div className={`w-full ${isHorizontalImage ? '' : sizeClasses.imageWidth || 'md:w-32'} flex-shrink-0`}>
-            <img
-              src={imageUrl}
-              alt={article.image?.alt || article.title || 'Content image'}
-              className={`w-full object-cover ${isHorizontalImage ? (sizeClasses.imageHeight || 'h-14 md:h-32') : (sizeClasses.imageHeight || 'h-14 md:h-auto')}`}
-            />
+            {/* Use picture element for responsive images */}
+            <picture>
+              <source media="(min-width: 768px)" srcSet={desktopImageUrl || ''} />
+              <img
+                src={mobileImageUrl || ''}
+                alt={article.image?.alt || article.title || 'Content image'}
+                className={`w-full object-cover object-center ${sizeClasses.imageHeight || '!h-26 md:!h-auto'}`}
+              />
+            </picture>
           </div>
 
           {/* Content - with padding and background */}
