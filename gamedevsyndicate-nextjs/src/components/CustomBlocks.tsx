@@ -232,8 +232,8 @@ export function TextBlock({ value, designSystem }: TextBlockProps & { designSyst
       ref={blockRef}
       className={animationClass}
     >
-      {value.heading && renderHeading()}
       <div className={`prose prose-invert max-w-4xl mx-auto ${alignClasses[value.textAlign]}`}>
+        {value.heading && renderHeading()}
         <PortableText value={value.text as import('@portabletext/types').PortableTextBlock[]} />
       </div>
     </div>
