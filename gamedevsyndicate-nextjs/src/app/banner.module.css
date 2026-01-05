@@ -23,10 +23,16 @@
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
-/* Responsive adjustments */
+/* Make banner significantly bigger on mobile */
 @media (max-width: 768px) {
+  .bannerSection {
+    padding: 2rem 0 0.5rem 0;
+  }
+  
   .bannerImage {
-    height: 250px;
-    border-radius: 8px;
+    max-height: 420px; 
+    max-width: 150vw;
+    width: 140vw;
+    margin-left: -40px;
   }
 }
