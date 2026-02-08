@@ -7,7 +7,6 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch: # Adds a "Run workflow" button for manual testing
 
-
 jobs:
   backup:
     runs-on: ubuntu-latest
@@ -19,6 +18,7 @@ jobs:
         run: npm install -g @sanity/cli
 
       - name: Export Dataset
+        working-directory: gamedevsyndicate
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: |
@@ -27,19 +27,11 @@ jobs:
           
           # Run the export
           # Replace 'production' below if your dataset name is different
-          working-directory: gamedevsyndicate
           sanity dataset export production backup-weekly-$timestamp.tar.gz
-
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          # Naming the artifact with the Run ID keeps them organized in the UI
           name: sanity-backup-sunday-${{ github.run_id }}
           path: gamedevsyndicate/*.tar.gz
-          
-          # STORAGE MANAGEMENT:
-          # Since you run this once a week, keeping data for 30 days
-          # means you will store about 4-5 backup files at a time.
-          # If your dataset is >100MB, lower this to 14 (2 weeks) to stay under the 500MB free limit.
           retention-days: 30
