@@ -7,6 +7,10 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch: # Adds a "Run workflow" button for manual testing
 
+name: Website Availability Check
+
+
+
 jobs:
   backup:
     runs-on: ubuntu-latest
@@ -34,7 +38,7 @@ jobs:
         with:
           # Naming the artifact with the Run ID keeps them organized in the UI
           name: sanity-backup-sunday-${{ github.run_id }}
-            path: gamedevsyndicate/*.tar.gz
+          path: gamedevsyndicate/*.tar.gz
           
           # STORAGE MANAGEMENT:
           # Since you run this once a week, keeping data for 30 days
