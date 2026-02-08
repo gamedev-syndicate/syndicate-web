@@ -27,8 +27,9 @@ jobs:
           
           # Run the export
           # Replace 'production' below if your dataset name is different
-          sanity dataset export production backup-weekly-$timestamp.tar.gz
           working-directory: gamedevsyndicate
+          sanity dataset export production backup-weekly-$timestamp.tar.gz
+
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
