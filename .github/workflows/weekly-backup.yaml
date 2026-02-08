@@ -17,6 +17,10 @@ jobs:
       - name: Install Sanity CLI
         run: npm install -g @sanity/cli
 
+      - name: Install Sanity dependencies
+        working-directory: gamedevsyndicate
+        run: npm ci
+
       - name: Export Dataset
         working-directory: gamedevsyndicate
         env:
@@ -26,7 +30,6 @@ jobs:
           timestamp=$(date +%Y-%m-%d)
           
           # Run the export
-          # Replace 'production' below if your dataset name is different
           sanity dataset export production backup-weekly-$timestamp.tar.gz
 
       - name: Upload Artifact
