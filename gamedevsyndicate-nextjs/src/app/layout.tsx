@@ -6,6 +6,7 @@ import { DesignSystemProvider } from '../components/DesignSystemProvider';
 import { getSiteConfig, getDesignSystem } from '../lib/sanity-queries';
 import { generateBackgroundStyle } from '../lib/background-utils';
 import type { NavigationItem } from '../types/sanity';
+import { config } from '../config';
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -85,6 +86,8 @@ export default async function RootLayout({
   
   const navigationItems: NavigationItem[] = siteConfig?.navigationItems || [];
   const backgroundStyle = generateBackgroundStyle(siteConfig?.pageBackground, designSystem);
+  const dataset = config.sanity.dataset;
+  const appEnvironment = config.app.environment;
 
   return (
     <html lang="en">
@@ -98,6 +101,8 @@ export default async function RootLayout({
             menuColor={menuColor}
             navigationTextColor={navigationTextColor}
             navigationActiveColor={navigationActiveColor}
+            dataset={dataset}
+            appEnvironment={appEnvironment}
           >
             {children}
           </ConditionalLayout>
