@@ -219,14 +219,11 @@ function createConfig(): AppConfig {
   let config = deepMerge(defaultConfig, localConfig)
   config = deepMerge(config, envConfig)
   
-  // Log configuration source in development
-  if (process.env.NODE_ENV === 'development') {
-    console.log('⚙️ Configuration loaded from:', {
-      default: '✅',
-      local: Object.keys(localConfig).length > 0 ? '✅' : '❌',
-      environment: Object.keys(envConfig).length > 0 ? '✅' : '❌',
-    })
-  }
+  console.log('⚙️ Sanity config:', {
+    vercelEnv: process.env.VERCEL_ENV ?? '(not set — local)',
+    dataset: config.sanity.dataset,
+    environment: config.app.environment,
+  })
   
   return config
 }
