@@ -26,8 +26,11 @@ export default async function RootLayout({
 }>) {
   const siteConfig = await getSiteConfig();
   const designSystem = await getDesignSystem();
-  
-  console.log('Design system fetched:', designSystem);
+
+  console.warn('⚙️ Sanity config (per-request):', {
+    vercelEnv: process.env.VERCEL_ENV ?? '(not set — local)',
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? '(not set — using default)',
+  });
   
   // Handle menu color with design system support
   let menuColor = siteConfig?.menuColor?.hex || 'rgba(0,0,0,0.6)';
