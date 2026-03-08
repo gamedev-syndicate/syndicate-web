@@ -348,7 +348,6 @@ export const createCustomComponents = (designSystem: DesignSystem | null) => ({
     callout: (props: CalloutProps) => <Callout {...props} designSystem={designSystem} />,
     image: (props: InlineImageProps) => <InlineImage {...props} designSystem={designSystem} />,
     contentSeparator: ({ value }: { value: ContentSeparatorBlockType }) => {
-      console.log('ContentSeparator value from Sanity:', JSON.stringify(value, null, 2));
       return (
         <ContentSeparatorBlock
           lineColorSelection={value.lineColorSelection}
@@ -478,13 +477,9 @@ export const createCustomComponents = (designSystem: DesignSystem | null) => ({
 import type { ContentBlock } from '../types/sanity';
 
 export default function CustomBlocks({ blocks, designSystem }: { blocks: ContentBlock[], designSystem: DesignSystem | null }) {
-  console.log('CustomBlocks rendering blocks:', blocks);
-  
   return (
     <div className="custom-blocks">
       {blocks.map((block) => {
-        console.log('Rendering block type:', block._type, 'with key:', block._key);
-        
         switch (block._type) {
           case 'imageBlock':
             return <ImageBlock key={block._key} value={block} />;
@@ -501,7 +496,6 @@ export default function CustomBlocks({ blocks, designSystem }: { blocks: Content
           case 'compactCompanyListBlock':
             return <CompactCompanyListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'contactBlock':
-            console.log('Rendering ContactBlock with data:', block);
             return <ContactBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'socialMediaBlock':
             return <SocialMediaBlock key={block._key} value={block} designSystem={designSystem} />;

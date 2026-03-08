@@ -32,22 +32,16 @@ interface ContentSeparatorBlockProps {
 }
 
 const getColorValue = (color?: SanityColor): string => {
-  console.log('Full color object structure:', JSON.stringify(color, null, 2));
-  
   if (!color?.hex) {
-    console.log('No valid color found, using default');
     return '#FFFFFF3D'; // Default fallback
   }
   
   if (color.alpha !== undefined && color.alpha < 1) {
     // Convert to hex with alpha
     const alphaHex = Math.floor(color.alpha * 255).toString(16).padStart(2, '0');
-    const result = `${color.hex}${alphaHex}`;
-    console.log('Color with alpha:', result);
-    return result;
+    return `${color.hex}${alphaHex}`;
   }
   
-  console.log('Using hex color:', color.hex);
   return color.hex;
 };
 
@@ -64,11 +58,6 @@ const ContentSeparatorBlock: React.FC<ContentSeparatorBlockProps> = ({
   designSystem,
 }) => {
   
-  console.log('ContentSeparatorBlock props received:', JSON.stringify({ 
-    lineColorSelection, customLineColor, diamondColorSelection, customDiamondColor,
-    lineColor, diamondColor, strokeWidth, height, margin 
-  }, null, 2));
-
   const resolveColor = (
     colorSelection?: string,
     customColor?: SanityColor,
@@ -98,9 +87,7 @@ const ContentSeparatorBlock: React.FC<ContentSeparatorBlockProps> = ({
   
   const lineColorValue = resolveColor(lineColorSelection, customLineColor, lineColor);
   const diamondColorValue = resolveColor(diamondColorSelection, customDiamondColor, diamondColor);
-  
-  console.log('Final colors:', { lineColorValue, diamondColorValue });
-  
+
   const containerStyle: React.CSSProperties = {
     marginTop: margin?.top || '2rem',
     marginBottom: margin?.bottom || '2rem',
