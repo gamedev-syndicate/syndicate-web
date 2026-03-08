@@ -27,7 +27,7 @@ export default async function RootLayout({
   const siteConfig = await getSiteConfig();
   const designSystem = await getDesignSystem();
 
-  console.warn('⚙️ Sanity config (per-request):', {
+  console.log('⚙️ Sanity config (per-request):', {
     vercelEnv: process.env.VERCEL_ENV ?? '(not set — local)',
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? '(not set — using default)',
   });

@@ -12,7 +12,9 @@ export default defineConfig({
   title: 'Gamedevsyndicate',
 
   projectId: 'iu8qgjyf',
-  dataset: process.env.NODE_ENV === 'dev' ? 'dev' : 'production',
+  // Use SANITY_STUDIO_DATASET env var, falling back to 'production'.
+  // Set SANITY_STUDIO_DATASET=dev in your local .env and in Vercel for the studio deployment.
+  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
   plugins: [
     structureTool(), 
