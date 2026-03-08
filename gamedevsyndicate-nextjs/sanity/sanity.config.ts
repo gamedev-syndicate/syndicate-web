@@ -8,8 +8,8 @@ export default defineConfig({
   name: 'default',
   title: 'Gamedevsyndicate',
 
-  projectId: 'iu8qgjyf',
-  dataset: 'production',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'iu8qgjyf',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   basePath: '/studio',
 
   plugins: [

@@ -113,7 +113,6 @@ export async function getSiteConfig(): Promise<SiteConfig | null> {
     const client = await getQueryClient();
     const result = await client.fetch(query, {}, getCacheConfig('static'));
     
-    console.log('Site config fetched:', result); // Debug log
     return result;
   } catch (error) {
     console.error('Failed to fetch site config:', error);

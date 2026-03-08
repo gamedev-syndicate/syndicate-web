@@ -15,7 +15,9 @@ export function getClient(preview = false) {
     projectId: sanityClientConfig.projectId,
     dataset: sanityClientConfig.dataset,
     apiVersion: sanityClientConfig.apiVersion,
-    useCdn: !preview && process.env.NODE_ENV === 'production',
+    // Use CDN only on production Vercel deploys — not on preview or local.
+    // NODE_ENV is always 'production' on Vercel, so we use VERCEL_ENV instead.
+    useCdn: !preview && process.env.VERCEL_ENV === 'production',
     token: process.env.SANITY_API_TOKEN,
     perspective: preview ? 'previewDrafts' : 'published',
   });

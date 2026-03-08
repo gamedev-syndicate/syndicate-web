@@ -219,7 +219,8 @@ function createConfig(): AppConfig {
   let config = deepMerge(defaultConfig, localConfig)
   config = deepMerge(config, envConfig)
   
-  console.log('⚙️ Sanity config:', {
+  // Use console.warn so this survives the removeConsole compiler transform
+  console.warn('⚙️ Sanity config:', {
     vercelEnv: process.env.VERCEL_ENV ?? '(not set — local)',
     dataset: config.sanity.dataset,
     environment: config.app.environment,

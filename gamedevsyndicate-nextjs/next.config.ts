@@ -8,8 +8,10 @@ const nextConfig: NextConfig = {
   },
   // Ensure CSS variables and inline styles are preserved
   compiler: {
-    // Remove console logs in production but keep styles
-    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+    // Remove console.log in production but keep error/warn/info.
+    // Use VERCEL_ENV so preview deploys are treated like production for log removal.
+    // console.warn is used for important diagnostics (e.g. config logging) so it survives.
+    removeConsole: process.env.VERCEL_ENV === 'production' ? { exclude: ['error', 'warn', 'info'] } : false,
   },
   // Configure webpack to handle parent directory imports
   webpack: (config, { isServer }) => {
