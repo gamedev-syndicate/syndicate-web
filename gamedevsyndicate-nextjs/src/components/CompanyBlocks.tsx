@@ -24,6 +24,7 @@ interface CompanyData {
   description?: string;
 }
 
+
 interface CompanyBlockProps {
   value: {
     company: CompanyData;
