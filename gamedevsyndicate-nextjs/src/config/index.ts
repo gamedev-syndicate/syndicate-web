@@ -143,15 +143,19 @@ function loadEnvConfig(): Partial<AppConfig> {
     envConfig.app.url = process.env.NEXT_PUBLIC_APP_URL || `https://${process.env.VERCEL_URL}`
   }
 
-  if (process.env.NODE_ENV) {
-    const nodeEnv = process.env.NODE_ENV;
-    if (nodeEnv === 'development') {
-      if (!envConfig.app) envConfig.app = {} as AppConfig['app'];
-      envConfig.app.environment = 'dev';
-    } else if (nodeEnv === 'production') {
-      if (!envConfig.app) envConfig.app = {} as AppConfig['app'];
-      envConfig.app.environment = 'production';
-    }
+  // VERCEL_ENV is injected automatically by Vercel: 'production' | 'preview' | 'development'
+  // We do NOT use NODE_ENV here — Vercel always sets it to 'production' regardless of environment.
+  // When running locally without Vercel, VERCEL_ENV is undefined and the default config ('dev') applies.
+  const vercelEnv = process.env.VERCEL_ENV
+  if (vercelEnv === 'preview') {
+    if (!envConfig.app) envConfig.app = {} as AppConfig['app'];
+    envConfig.app.environment = 'preview'
+  } else if (vercelEnv === 'production') {
+    if (!envConfig.app) envConfig.app = {} as AppConfig['app'];
+    envConfig.app.environment = 'production'
+  } else if (vercelEnv === 'development') {
+    if (!envConfig.app) envConfig.app = {} as AppConfig['app'];
+    envConfig.app.environment = 'dev'
   }
 
   // Feature flags
