@@ -12,8 +12,10 @@ async function getQueryClient() {
 type CacheContentType = 'static' | 'semi-static' | 'dynamic' | 'real-time';
 
 function getCacheConfig(contentType: CacheContentType = 'semi-static') {
-  // Always disable cache in development for immediate updates
-  if (process.env.NODE_ENV !== 'production') {
+  // Disable cache on preview/development Vercel environments and local dev.
+  // NODE_ENV is always 'production' on Vercel, so we use VERCEL_ENV instead.
+  const isPreviewOrLocal = process.env.VERCEL_ENV !== 'production';
+  if (isPreviewOrLocal) {
     return { next: { revalidate: 0 } };
   }
 
