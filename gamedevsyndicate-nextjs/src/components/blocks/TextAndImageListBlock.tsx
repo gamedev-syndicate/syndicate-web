@@ -289,7 +289,7 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
             </h3>
             {article.text && article.text.length > 0 && (
               <div className="prose prose-sm max-w-none text-gray-300 line-clamp-2 text-xs leading-tight text-left">
-                <RichTextRendererClient value={article.text as PortableTextBlock[]} />
+                <RichTextRendererClient value={article.text as PortableTextBlock[]} designSystem={designSystem} />
               </div>
             )}
           </div>
@@ -343,7 +343,7 @@ export const TextAndImageListBlock: React.FC<TextAndImageListBlockProps> = ({ va
             
             {article.text && article.text.length > 0 && (
               <div className="prose prose-base max-w-none text-gray-300 text-base text-left">
-                <RichTextRendererClient value={article.text as PortableTextBlock[]} />
+                <RichTextRendererClient value={article.text as PortableTextBlock[]} designSystem={designSystem} />
               </div>
             )}
           </div>

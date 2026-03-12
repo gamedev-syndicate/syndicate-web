@@ -343,7 +343,7 @@ export const createCustomComponents = (designSystem: DesignSystem | null) => ({
     contactBlock: ({ value }: { value: ContactBlockType }) => <ContactBlock value={value} designSystem={designSystem} />,
     socialMediaBlock: ({ value }: { value: SocialMediaBlockType }) => <SocialMediaBlock value={value} />,
     imageTextBlock: ({ value }: { value: ImageTextBlockType }) => <ImageTextBlock value={value} />,
-    textAndImageBlock: ({ value }: { value: TextAndImageBlockType }) => <TextAndImageBlock value={value} />,
+    textAndImageBlock: ({ value }: { value: TextAndImageBlockType }) => <TextAndImageBlock value={value} designSystem={designSystem} />,
     textAndImageListBlock: ({ value }: { value: TextAndImageListBlockType }) => <TextAndImageListBlock value={value} />,
     callout: (props: CalloutProps) => <Callout {...props} designSystem={designSystem} />,
     image: (props: InlineImageProps) => <InlineImage {...props} designSystem={designSystem} />,
@@ -508,7 +508,7 @@ export default function CustomBlocks({ blocks, designSystem }: { blocks: Content
           case 'imageTextBlock':
             return <ImageTextBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'textAndImageBlock':
-            return <TextAndImageBlock key={block._key} value={block} />;
+            return <TextAndImageBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'textAndImageListBlock':
             return <TextAndImageListBlock key={block._key} value={block} designSystem={designSystem} />;
           case 'contentSeparator': {

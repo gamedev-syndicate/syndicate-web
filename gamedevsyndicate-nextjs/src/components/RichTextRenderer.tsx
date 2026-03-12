@@ -3,16 +3,15 @@
 import React from 'react'
 import { PortableText } from '@portabletext/react'
 import { createCustomComponents } from './CustomBlocks'
-import { useDesignSystem } from '../hooks/useDesignSystem'
 import type { PortableTextBlock } from '@portabletext/types'
+import type { DesignSystem } from '../types/designSystem'
 
 interface RichTextRendererProps {
   value: PortableTextBlock | PortableTextBlock[]
+  designSystem?: DesignSystem | null
 }
 
-export default function RichTextRenderer({ value }: RichTextRendererProps) {
-  const { designSystem } = useDesignSystem();
+export default function RichTextRenderer({ value, designSystem = null }: RichTextRendererProps) {
   const customComponents = createCustomComponents(designSystem);
-  
   return <PortableText value={value} components={customComponents} />
 }

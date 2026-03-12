@@ -145,7 +145,7 @@ export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({ value, designSys
           
           {text && text.length > 0 && (
             <div className={`prose prose-xl max-w-none ${subTextColorClass}`}>
-              <RichTextRendererClient value={text as PortableTextBlock[]} />
+              <RichTextRendererClient value={text as PortableTextBlock[]} designSystem={designSystem} />
             </div>
           )}
         </div>

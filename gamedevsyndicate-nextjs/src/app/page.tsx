@@ -109,7 +109,7 @@ export default async function Home() {
           className={styles.textSection}
         >
           <div className={styles.textContent}>
-            <RichTextRenderer value={homepage.textArea as PortableTextBlock[]} />
+            <RichTextRenderer value={homepage.textArea as PortableTextBlock[]} designSystem={designSystem} />
           </div>
         </AnimatedHomepageSection>
       )}

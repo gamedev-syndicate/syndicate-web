@@ -5,6 +5,7 @@ import { getImageUrl } from '../../lib/sanity-image';
 import type { SanityImage } from '../../types/sanity';
 import RichTextRendererClient from '../RichTextRendererClient';
 import type { PortableTextBlock } from '@portabletext/types';
+import type { DesignSystem } from '../../types/designSystem';
 
 interface TextAndImageBlockProps {
   value: {
@@ -20,9 +21,10 @@ interface TextAndImageBlockProps {
     verticalAlignment?: 'start' | 'center' | 'end';
     textAlign?: 'left' | 'center' | 'right';
   };
+  designSystem?: DesignSystem | null;
 }
 
-export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value }) => {
+export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value, designSystem }) => {
   const {
     article,
     imageAlignment = 'left',
@@ -49,7 +51,7 @@ export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value }) =
           
           {text && text.length > 0 && (
             <div className={`prose prose-xl max-w-none text-gray-300 ${textAlign === 'left' ? 'text-left' : textAlign === 'center' ? 'text-center' : 'text-right'}`}>
-              <RichTextRendererClient value={text as PortableTextBlock[]} />
+              <RichTextRendererClient value={text as PortableTextBlock[]} designSystem={designSystem} />
             </div>
           )}
         </div>
@@ -127,7 +129,7 @@ export const TextAndImageBlock: React.FC<TextAndImageBlockProps> = ({ value }) =
           
           {text && text.length > 0 && (
             <div className={`prose prose-xl max-w-none text-gray-300 ${textAlign === 'left' ? 'text-left' : textAlign === 'center' ? 'text-center' : 'text-right'}`}>
-              <RichTextRendererClient value={text as PortableTextBlock[]} />
+              <RichTextRendererClient value={text as PortableTextBlock[]} designSystem={designSystem} />
             </div>
           )}
         </div>
