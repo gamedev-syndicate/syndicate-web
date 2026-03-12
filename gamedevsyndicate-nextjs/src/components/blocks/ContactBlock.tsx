@@ -135,7 +135,7 @@ export function ContactBlock({ value, designSystem }: ContactBlockProps) {
           email: formData.email,
           message: formData.message,
           honeypot: formData.honeypot,
-          recipientEmail: value.recipientEmail,
+          blockKey: value._key,
         }),
       });
 

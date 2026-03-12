@@ -1,12 +1,13 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 import { config } from '../../../config';
+import { sanityClient } from '../../../sanityClient';
 
 interface ContactFormData {
   name: string;
   email: string;
   message: string;
-  recipientEmail?: string;
+  blockKey: string;
   honeypot?: string;
 }
 
@@ -39,8 +40,21 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate recipient email (from Sanity CMS)
-    const recipientEmail = body.recipientEmail;
+    // Validate blockKey is present
+    if (!body.blockKey || typeof body.blockKey !== 'string') {
+      return NextResponse.json(
+        { success: false, message: 'Invalid form configuration' },
+        { status: 400 }
+      );
+    }
+
+    // Fetch recipient email server-side from Sanity using the block key.
+    // The client never controls who receives the email.
+    const recipientEmail = await sanityClient.fetch<string | null>(
+      `*[defined(blocks[_key == $blockKey])][0].blocks[_key == $blockKey][0].recipientEmail`,
+      { blockKey: body.blockKey }
+    );
+
     if (!recipientEmail || !emailRegex.test(recipientEmail)) {
       return NextResponse.json(
         { success: false, message: 'Invalid recipient email configuration' },
