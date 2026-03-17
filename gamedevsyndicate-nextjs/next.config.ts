@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "spillprisen.gamedevsyndicate.com" }],
+        destination: "https://encirclegames.com/spillprisen/:path*",
+      },
+    ];
+  },
   /* config options here */
   experimental: {
     // Disable CSS optimization that might tree-shake dynamic styles
