@@ -2,14 +2,18 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return [
+  return {
+    beforeFiles: [
       {
         source: "/:path*",
         has: [{ type: "host", value: "spillprisen.gamedevsyndicate.com" }],
         destination: "https://encirclegames.com/spillprisen/:path*",
       },
-    ];
-  },
+    ],
+    afterFiles: [],
+    fallback: [],
+  };
+},
   /* config options here */
   experimental: {
     // Disable CSS optimization that might tree-shake dynamic styles
