@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         has: [{ type: "host", value: "spillprisen.gamedevsyndicate.com" }],
-        destination: "https://encirclegames.com/spillprisen/:path*",
+        destination: "https://encirclegames.com/Spillprisen/:path*",
       },
     ],
     afterFiles: [],
